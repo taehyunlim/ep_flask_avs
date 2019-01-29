@@ -1,1 +1,21 @@
-address
+<h1>address</h1>
+
+{% with messages = get_flashed_messages() %} {% if messages %}
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+{% endif %} {% endwith %}
+
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p>{{ form.name.label }}<br>{{ form.name(size=16) }}<br>
+    {{ form.street1.label }}<br>{{ form.street1(size=16) }}<br>
+    {{ form.street2.label }}<br>{{ form.street2(size=16) }}<br>
+    {{ form.city.label }}<br>{{ form.city(size=16) }}<br>
+    {{ form.state.label }}<br>{{ form.state(size=8) }}<br>
+    {{ form.zip.label }}<br>{{ form.zip(size=8) }}<br>
+    {{ form.country.label }}<br>{{ form.country(size=8) }}<br>
+    {{ form.verify.label }}<br>{{ form.verify }}<br>
+    <br>{{ form.submit() }}
+  </p>
+</form>
