@@ -1,4 +1,4 @@
-# EP-Flask
+# ep_flask
 This repo serves as a boilerplate for the [Flask web server](http://flask.pocoo.org/) with [EasyPost Python client library](https://github.com/EasyPost/easypost-python) pre-installed to be import-ready.
 
 
