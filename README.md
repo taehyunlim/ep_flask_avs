@@ -2,7 +2,7 @@
 This repo serves as a boilerplate for the [Flask web server](http://flask.pocoo.org/) with [EasyPost Python client library](https://github.com/EasyPost/easypost-python) pre-installed to be import-ready.
 
 
-## 1. Installation
+Installation
 ---------------
 Install virtualenv in the root directory of this repo (`ep-flask`) and upgrade `pip` before installing dependencies:
 ```
@@ -13,7 +13,7 @@ $ pip install -r requirements.txt
 ```
 
 
-## 2. Setup env
+Setup env
 ------------
 `cd` into `ep_flask` and concatenate strings into env variables:
 ```
@@ -30,7 +30,7 @@ $ cat .env .flaskenv
 ```
 
 
-## 3. Run 
+Run 
 ------
 ```
 $ flask run
