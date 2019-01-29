@@ -4,7 +4,7 @@ This repo serves as a boilerplate for the [Flask web server](http://flask.pocoo.
 
 Installation
 ---------------
-Install virtualenv in the root directory of this repo (`ep-flask`) and upgrade `pip` before installing dependencies:
+Install virtualenv in the root directory of this repo (`ep_flask`) and upgrade `pip` before installing dependencies:
 ```
 python3 -m venv venv
 source venv/bin/activate
