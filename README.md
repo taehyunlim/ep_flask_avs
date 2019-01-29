@@ -22,7 +22,7 @@ $ touch .flaskenv .env
 $ echo "FLASK_APP=app.py" >> .flaskenv
 $ echo "FLASK_ENV=development" >> .flaskenv
 $ echo "FLASK_DEBUG=1" >> .flaskenv
-$ echo “EP_API_KEY=your_ep_api_key” >> .env
+$ echo “EP_API_KEY=your_easypost_api_key” >> .env
 ```
 Check if there are any typos:
 ```
