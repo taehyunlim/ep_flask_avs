@@ -16,5 +16,5 @@ def CreateAddress(form):
     );
     res = address
   except easypost.Error as e:
-    res = e.json_body
+    res = json.dumps(e.json_body, indent=2)
   return res
