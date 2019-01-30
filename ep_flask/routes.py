@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, request, url_for
-from ep_flask import app
+from ep_flask import app, db
 from ep_flask.forms import AddressForm
 from ep_flask.api import CreateAddress
 from ep_flask.models import Address
@@ -19,3 +19,10 @@ def address():
   elif request.method == 'GET':
     res = None
   return render_template('address.html', form=form, res=res)
+
+@app.route('/address/<id>/delete', methods=['GET', 'DELETE'])
+def delete_address(id):
+  address = Address.query.filter_by(id=id).first()
+  db.session.delete(address)
+  db.session.commit()
+  return redirect(url_for('index'))
