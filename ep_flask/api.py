@@ -1,5 +1,6 @@
 import easypost, json
-from ep_flask import app
+from ep_flask import app, db
+from ep_flask.models import Address
 easypost.api_key = app.config['EP_API_KEY']
 
 def CreateAddress(form):
@@ -15,6 +16,8 @@ def CreateAddress(form):
       country=form.country.data
     );
     res = address
+    db.session.add(Address(ep_adr_id=res.id))
+    db.session.commit()
   except easypost.Error as e:
     res = json.dumps(e.json_body, indent=2)
   return res
