@@ -5,6 +5,18 @@
   <div class="row">
     <div class="col-md-4">
       <pre>index.html</pre>
+      <div class="list-group">
+      {% if addresses %}
+      {% for address in addresses %}
+        <a href="#" class="list-group-item">{{ address.ep_adr_id }}<br>
+          <small>
+            {{ moment(address.timestamp).format('YYYY-MM-DD HH:mm:ss') }}
+            <span class="glyphicon glyphicon-remove" id="address-{{ address.id }}" aria-hidden="true"></span>
+          </small>
+        </a>
+      {% endfor %}
+      {% endif %}
+      </div>
     </div>
   </div>
 {% endblock %}
