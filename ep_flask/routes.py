@@ -13,5 +13,5 @@ def address():
   form = AddressForm()
   if form.validate_on_submit():
     res = CreateAddress(form)
-    flash('EP Address ID: {}'.format(res))
+    flash('response.body: {}'.format(res))
   return render_template('address.html', form=form)
