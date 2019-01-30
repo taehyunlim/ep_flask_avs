@@ -18,9 +18,9 @@ Setup env
 From the root, concatenate strings into env variables:
 ```
 touch .flaskenv .env
-echo "FLASK_APP=ep_flask" >> .flaskenv
-echo "FLASK_ENV=development" >> .flaskenv
-echo "FLASK_DEBUG=1" >> .flaskenv
+echo FLASK_APP=ep_flask >> .flaskenv
+echo FLASK_ENV=development >> .flaskenv
+echo FLASK_DEBUG=1 >> .flaskenv
 echo EP_API_KEY=your_easypost_api_key >> .env
 ```
 Check if there are any typos:
