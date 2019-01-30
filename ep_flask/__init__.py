@@ -15,7 +15,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # Import modules
-from ep_flask import routes, api
+from ep_flask import routes, api, models
 
 # Bootstrap instance
 bootstrap = Bootstrap(app)
