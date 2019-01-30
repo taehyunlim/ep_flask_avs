@@ -1,21 +1,17 @@
-<h1>address</h1>
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% with messages = get_flashed_messages() %} {% if messages %}
-{% for message in messages %}
-{{ message }}
-{% endfor %}
-{% endif %} {% endwith %}
-
-<form action="" method="post" novalidate>
-  {{ form.hidden_tag() }}
-  <p>{{ form.name.label }}<br>{{ form.name(size=16) }}<br>
-    {{ form.street1.label }}<br>{{ form.street1(size=16) }}<br>
-    {{ form.street2.label }}<br>{{ form.street2(size=16) }}<br>
-    {{ form.city.label }}<br>{{ form.city(size=16) }}<br>
-    {{ form.state.label }}<br>{{ form.state(size=8) }}<br>
-    {{ form.zip.label }}<br>{{ form.zip(size=8) }}<br>
-    {{ form.country.label }}<br>{{ form.country(size=8) }}<br>
-    {{ form.verify.label }}<br>{{ form.verify }}<br>
-    <br>{{ form.submit() }}
-  </p>
-</form>
+{% block app_content %}
+  <h3><code style="color: #333; background-color: #f5f5f5;">easypost.Address.create</code></h3><br>
+  <div class="row">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+    <div class="col-md-8">
+      {% if res %}
+      <pre>response.body:<br>{{ res }}</pre>
+      {% endif %}
+    </div>
+  </div>
+  <br><br><br>
+{% endblock %}
