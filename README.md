@@ -35,3 +35,20 @@ Run
 flask run
 ```
 Open in browser: http://localhost:5000/address
+
+
+Migration
+------
+Included with this package is a SQL Alchemy migration extension called [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/).
+
+If first time running db, create a migration repository:
+```
+flask db init
+```
+For any db table changes, run the following commands:
+```
+flask db migrate -m "Include message"
+flask db upgrade
+```
+
+Refer to the offical doc: [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/).
