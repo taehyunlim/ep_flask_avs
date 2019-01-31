@@ -3,6 +3,28 @@
 {% block scripts %}
   {{ super() }}
   {{ moment.include_moment() }}
+<script>
+  // Inject stringified address response from the API call
+  function retrieveAddress(id) {
+    let node = `#${id}`
+    // Loader Image
+    $(node).html(`<img src="{{ url_for('static', filename='loading.gif') }}">`);
+    // Ajax request to retrieve endpoint
+    $.post(`/address/${id}/retrieve`)
+    .done(function(res) {
+      console.log(res);
+      $(node).html(`<pre>${res}</pre>`)
+    })
+    .fail(function() {
+      $(node).html("Error: API Failure");
+    });
+  }
+  // Call retrieveAddress on click
+  $(".address-collapse").click(function() {
+    let id = $(this).html().trim()
+    retrieveAddress(id);
+  });
+</script>
 {% endblock %}
 
 {% block navbar %}
