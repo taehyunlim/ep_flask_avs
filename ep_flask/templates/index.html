@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h1>index.html</h1>
+  <h3><code style="color: #333; background-color: #f5f5f5;">easypost.Address.retrieve</code></h3><br>
   <div class="row">
     <div class="col-md-4">
-      <pre>index.html</pre>
-      <div class="list-group">
-      {% if addresses %}
-      {% for address in addresses %}
-        <button type="button" href="#" class="list-group-item">
-          {{ address.ep_adr_id }}<br>
-          <small>{{ moment(address.timestamp).format('YYYY-MM-DD HH:mm:ss') }}</small>
-          <a href="/address/{{ address.id }}/delete"><span class="glyphicon glyphicon-remove" id="address-{{ address.id }}" style="color: #555;" aria-hidden="true"></span></a>
-        </button>
-      {% endfor %}
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% if addresses %}
+        {% for address in addresses %}
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="address-{{ address.id }}">
+            <p class="panel-title">
+              <a role="button" class="address-collapse" data-toggle="collapse" data-parent="#accordion" href="#collpaseAddress-{{ address.id }}" aria-expanded="true" aria-controls="collpaseAddress-{{ address.id }}" style="margin-right: 10px;">
+                {{ address.ep_adr_id }}
+              </a>
+              <small style="background: rgba(0, 0, 0, 0.07); padding: 3px 6px; border-radius: 5px; font-size: 70%;">{{ moment(address.timestamp).format('YYYY-MM-DD HH:mm:ss') }}</small>
+            </p>
+          </div>
+          <div id="collpaseAddress-{{ address.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="address-{{ address.id }}">
+            <div class="panel-body" id="{{ address.ep_adr_id }}">
+              <pre></pre>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       {% endif %}
       </div>
     </div>
