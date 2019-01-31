@@ -10,7 +10,7 @@
     // Loader Image
     $(node).html(`<img src="{{ url_for('static', filename='loading.gif') }}">`);
     // Ajax request to retrieve endpoint
-    $.post(`/address/${id}/retrieve`)
+    $.get(`/address/${id}/retrieve`)
     .done(function(res) {
       console.log(res);
       $(node).html(`<pre>${res}</pre>`)
@@ -21,7 +21,7 @@
   }
   // Call retrieveAddress on click
   $(".address-collapse").click(function() {
-    let id = $(this).html().trim()
+    let id = $(this).text().trim()
     retrieveAddress(id);
   });
 </script>

@@ -20,7 +20,7 @@ def address():
     res = None
   return render_template('address.html', form=form, res=res)
 
-@app.route('/address/<id>/retrieve', methods=['POST'])
+@app.route('/address/<id>/retrieve', methods=['GET'])
 def retrieve_address(id):
   res = RetrieveAddress(id)
   return res
