@@ -1,7 +1,7 @@
-from flask import render_template, flash, redirect, request, url_for
+from flask import render_template, flash, redirect, request, url_for, jsonify
 from ep_flask import app, db
 from ep_flask.forms import AddressForm
-from ep_flask.api import CreateAddress
+from ep_flask.api import CreateAddress, RetrieveAddress
 from ep_flask.models import Address
 
 @app.route('/')
@@ -19,6 +19,11 @@ def address():
   elif request.method == 'GET':
     res = None
   return render_template('address.html', form=form, res=res)
+
+@app.route('/address/<id>/retrieve', methods=['POST'])
+def retrieve_address(id):
+  res = RetrieveAddress(id)
+  return res
 
 @app.route('/address/<id>/delete', methods=['GET', 'DELETE'])
 def delete_address(id):

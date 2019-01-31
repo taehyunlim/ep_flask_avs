@@ -21,3 +21,11 @@ def CreateAddress(form):
   except easypost.Error as e:
     res = json.dumps(e.json_body, indent=2)
   return res
+
+def RetrieveAddress(ep_id):
+  try:
+    address = easypost.Address.retrieve(ep_id)
+    res = json.dumps(address.to_dict(), indent=2)
+  except easypost.Error as e:
+    res = json.dumps(e.json_body, indent=2)
+  return res
