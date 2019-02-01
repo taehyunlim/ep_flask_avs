@@ -16,9 +16,7 @@ def address():
   if form.validate_on_submit():
     res = CreateAddress(form)
     return render_template('address.html', form=form, res=res)
-  elif request.method == 'GET':
-    res = None
-  return render_template('address.html', form=form, res=res)
+  return render_template('address.html', form=form)
 
 @app.route('/address/<id>/retrieve', methods=['GET'])
 def retrieve_address(id):
