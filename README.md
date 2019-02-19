@@ -1,5 +1,5 @@
 # ep_flask
-This repo serves as a boilerplate for the [Flask web server](http://flask.pocoo.org/) with [EasyPost Python client library](https://github.com/EasyPost/easypost-python) pre-installed to be import-ready.
+This is a demo of AVS (Address Verification System) offered by EasyPost API. The demo is based on the [ep_flask](https://github.com/taehyunlim/ep_flask) boilerplate.
 
 
 Installation
@@ -37,18 +37,6 @@ flask run
 Open in browser: http://localhost:5000/address
 
 
-Migration
-------
-Included with this package is a SQL Alchemy migration extension called [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/).
-
-If first time running db, create a migration repository:
-```
-flask db init
-```
-For any db table changes, run the following commands:
-```
-flask db migrate -m "Include message"
-flask db upgrade
-```
-
-Refer to the offical doc: [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/).
+Address Verification
+----
+`/address_1` or `/address_2` offer endpoints for the AVS demo. 

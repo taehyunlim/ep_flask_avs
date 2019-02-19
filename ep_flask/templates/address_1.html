@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h3><code style="color: #333; background-color: #f5f5f5;">easypost.Address.create</code> force update</h3><br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Shipping Address</h3>
+      </div>
+      <div class="panel-body">
+        {{ wtf.quick_form(form) }}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    {% if input %}
+    <pre>form_input:
+      <br>{{ input }}
+    </pre>
+    {% endif %}
+    {% if output %}
+    <pre>output (<a href="#"><span type="span" data-toggle="modal" data-target="#api-response">response</span></a>):
+      <br>{{ output }}
+    </pre>
+    {% endif %}
+    <!-- Modal -->
+    <div class="modal fade" id="api-response" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        {% if res %}
+        <pre>response.body:<span class="glyphicon glyphicon-minus" aria-hidden="true" data-dismiss="modal" role="button" style="float: right;"></span>
+          <br>{{ res }}
+        </pre>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br>
+{% endblock %}
