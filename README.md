@@ -1,4 +1,4 @@
-# ep_flask
+# ep_flask_avs
 This is a demo of AVS (Address Verification System) offered by EasyPost API. The demo is based on the [ep_flask](https://github.com/taehyunlim/ep_flask) boilerplate.
 
 
