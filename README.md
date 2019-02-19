@@ -1,5 +1,5 @@
 # ep_flask
-This repo serves as a boilerplate for the [Flask web server](http://flask.pocoo.org/) with [EasyPost Python client library](https://github.com/EasyPost/easypost-python) pre-installed to be import-ready.
+This is a demo of AVS (Address Verification System) offered by EasyPost API. The demo is based on the [ep_flask](https://github.com/taehyunlim/ep_flask) boilerplate.
 
 
 Installation
@@ -35,3 +35,8 @@ Run
 flask run
 ```
 Open in browser: http://localhost:5000/address
+
+
+Address Verification
+----
+`/address_1` or `/address_2` offer endpoints for the AVS demo. 

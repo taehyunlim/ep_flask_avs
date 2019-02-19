@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h3><code style="color: #333; background-color: #f5f5f5;">easypost.Address.create</code> edit modal</h3><br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Shipping Address</h3>
+      </div>
+      <div class="panel-body" id="address-2">
+        <div class="alert alert-danger" id="avs-error" role="alert" style="display: none;">The address you entered cannot be verified. Please try again.</div>
+        {{ wtf.quick_form(form) }}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <pre>output:<br><span id="result-output"></span>
+    </pre>
+  </div>
+</div>
+<br><br><br>
+
+<!-- Modal -->
+<div class="modal fade" id="avsModal" tabindex="-1" role="dialog" aria-labelledby="avsModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="avsModal">Address Verification</h4>
+      </div>
+      <div class="modal-body row" id="avsModalBody">
+        <div class="col-md-6">
+          <p>You entered:</p>
+          <div class="well well-sm" style="display: flex; align-items: center; background-color: white; cursor: pointer;}">
+          <span class="radio" style=" float: left; width: 20%; display: flex; justify-content: center; "> <label> <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="..."></label></span>
+          <div id="avsModalInput" style="padding-top: 10px;"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+        <p>Suggested address:</p>
+          <div class="well well-sm" style="display: flex; align-items: center; background-color: white; cursor: pointer;}">
+          <span class="radio" style=" float: left; width: 20%; display: flex; justify-content: center; "> <label> <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="..."></label></span>
+          <div id="avsModalOutput" style="padding-top: 10px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top: none;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="select-address" disabled>Select Address</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
