@@ -40,6 +40,8 @@
       // Verifications object returns either zip4 or delivery attributes
       const _v = data.res.verifications
       const v = _v.delivery ? _v.delivery : _v.zip4
+      // Append residential tag when appropriate
+      const residential = $(`<span id="residentialTag" style="background: grey; padding: 3px 7px; display: inline-block; border-radius: 7px; color: white; font-size: 11px; margin-bottom: 7px;">RESIDENTIAL</span>`)
 
       if (!v.success) {
         // If success == false then display mapped error messages onto the alert div
@@ -59,6 +61,9 @@
         }
         $(dest1).html(formatAddress(data.input))
         $(dest2).html(formatAddress(data.output))
+        if (JSON.stringify(data.res.residential).toLowerCase() === 'true') {
+          $(residential).appendTo(dest2)
+        }
       }
 
     }).fail((e) => {
@@ -69,7 +74,7 @@
 
   // Formats response from /avs endpoint
   function formatAddress(data) {
-    return ($(`<p><span style="display: none;">${data.name}<br></span>${data.street1}<br>${data.street2 ? data.street2 + '<br>': ''}${data.city}<br>${data.state} ${data.zip}<br>${data.country}</p>`))
+    return ($(`<p><span style="display: none;">${data.name}<br></span>${data.street1}<br>${data.street2 ? data.street2 + '<br>' : ''}${data.city}<br>${data.state} ${data.zip}<br>${data.country}</p>`))
   }
 
   // Make avs modal area clickable
@@ -77,7 +82,7 @@
   clickable('#avsModalInput')
 
   function clickable(target) {
-    $(target).parent().click(function(e) {
+    $(target).parent().click(function (e) {
       let radio = $(this).find("input:radio")
       radio.prop('checked', true)
       $('#select-address').prop('disabled', false)
@@ -85,7 +90,7 @@
     })
   }
 
-  $('#select-address').click(function(e) {
+  $('#select-address').click(function (e) {
     e.preventDefault();
     selectAddress(outputFinal)
   })
