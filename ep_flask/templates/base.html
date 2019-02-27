@@ -36,34 +36,46 @@
       country: $('#country').val(),
       verify: $('#verify').val()
     }).done((data) => {
+      console.log(data)
       ep_address_id = data.res.id
-      // Verifications object returns either zip4 or delivery attributes
-      const _v = data.res.verifications
-      const v = _v.delivery ? _v.delivery : _v.zip4
-      // Append residential tag when appropriate
-      const residential = $(`<span id="residentialTag" style="background: grey; padding: 3px 7px; display: inline-block; border-radius: 7px; color: white; font-size: 11px; margin-bottom: 7px;">RESIDENTIAL</span>`)
+      if (data.res.verifications) {
+        // Verifications object returns either zip4 or delivery attributes
+        const _v = data.res.verifications
+        const v = _v.delivery ? _v.delivery : _v.zip4
+        // Append residential tag when appropriate
+        const residential = $(`<span id="residentialTag" style="background: grey; padding: 3px 7px; display: inline-block; border-radius: 7px; color: white; font-size: 11px; margin-bottom: 7px;">RESIDENTIAL</span>`)
 
-      if (!v.success) {
-        // If success == false then display mapped error messages onto the alert div
-        const error_msg = v.errors.map(e => {
-          return `<li>${e.message}</li>`
-        })
-        $('#avs-error').append(`<ul id='avs-error-msg'>${error_msg.join('')}</ul>`)
-        $('#avs-error').show()
+        if (!v.success) {
+          // If success == false then display mapped error messages onto the alert div
+          const error_msg = v.errors.map(e => {
+            return `<li>${e.message}</li>`
+          })
+          $('#avs-error').append(`<ul id='avs-error-msg'>${error_msg.join('')}</ul>`)
+          $('#avs-error').show()
+        }
+
+        if (v.success) {
+          $('#avsModal').modal('show')
+          // Only suggest correction when there is a difference between in/output
+          if (JSON.stringify(data.input).toLowerCase().trim() == JSON.stringify(data.output).toLowerCase().trim()) {
+            outputFinal = formatAddress(data.output)
+            return selectAddress(outputFinal)
+          }
+          $(dest1).html(formatAddress(data.input))
+          $(dest2).html(formatAddress(data.output))
+          if (JSON.stringify(data.res.residential).toLowerCase() === 'true') {
+            $(residential).appendTo(dest2)
+          }
+        }
       }
-
-      if (v.success) {
-        $('#avsModal').modal('show')
-        // Only suggest correction when there is a difference between in/output
-        if (JSON.stringify(data.input).toLowerCase().trim() == JSON.stringify(data.output).toLowerCase().trim()) {
-          outputFinal = formatAddress(data.output)
-          return selectAddress(outputFinal)
-        }
-        $(dest1).html(formatAddress(data.input))
-        $(dest2).html(formatAddress(data.output))
-        if (JSON.stringify(data.res.residential).toLowerCase() === 'true') {
-          $(residential).appendTo(dest2)
-        }
+      // Handle error messages
+      else if (data.res.error) {
+        const error_msg = data.res.error.errors.map(e => {
+          return `<li>[${e.field.toUpperCase()}] ${e.message}</li>`
+        })
+        $('#avs-error')
+          .append(`<ul id='avs-error-msg'><li>${data.res.error.message}</li>${error_msg.join('')}</ul>`)
+        $('#avs-error').show()
       }
 
     }).fail((e) => {

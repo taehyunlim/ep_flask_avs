@@ -46,7 +46,6 @@ def CreateAddressForceUpdate(form):
   data.zip=form.zip.data
   data.country=form.country.data
   input = json.dumps(data.__dict__, indent=2)
-  print(input)
   # API
   try:
     res = easypost.Address.create(
@@ -74,17 +73,23 @@ def CreateAddressForceUpdate(form):
       if res.verifications.delivery.success:
         output = json.dumps(data.__dict__, indent=2)
       else:
-        output = res.verifications.delivery.errors
+        output["errors"] = {}
+        for i, e in enumerate(res.verifications.delivery.errors):
+          output["errors"][i] = {"field": e.field, "message": e.message, "suggestion": e.suggestion}
+        output = json.dumps(output, indent=2)
     elif hasattr(res.verifications, "zip4"):
       if res.verifications.zip4.success:
         output = json.dumps(data.__dict__, indent=2)
       else:
-        output = res.verifications.zip4.errors
-    print(output)
+        output["errors"] = {}
+        for i, e in enumerate(res.verifications.zip4.errors):
+          output["errors"][i] = {"field": e.field, "message": e.message, "suggestion": e.suggestion}
+        output = json.dumps(output, indent=2)
     # db.session.add(Address(ep_adr_id=res.id))
     # db.session.commit()
   except easypost.Error as e:
-    res = json.dumps(e.json_body)
+    res = json.dumps(e.json_body, indent=2)
+    output = res
   return input, res, output
 
 
@@ -102,7 +107,6 @@ def CreateAddressEditModal(form):
   data.country=form['country']
   data.verify=form['verify']
   input = data.__dict__
-  print(input)
   # API
   try:
     _res = easypost.Address.create(
@@ -116,7 +120,6 @@ def CreateAddressEditModal(form):
       country=form['country']
     );
     res = json.loads(_res.to_json())
-    print(res)
     # Store response in output 
     data = AddressData()
     # data.ep_id=_res.id
@@ -129,11 +132,11 @@ def CreateAddressEditModal(form):
     data.country=_res.country
     data.verify=form['verify']
     output = data.__dict__
-    print(output)
     # db.session.add(Address(ep_adr_id=_res.id))
     # db.session.commit()
   except easypost.Error as e:
-    res = json.dumps(e.json_body)
+    res = e.json_body
+    print(res)
   return input, res, output
   
 
