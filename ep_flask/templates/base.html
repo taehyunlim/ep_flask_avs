@@ -9,6 +9,16 @@
 
   $(document).ready(function () {
     console.log("Script loaded")
+    // If key exists in session, show masked key
+    recallKey((keyMasked) => {
+      console.log(keyMasked)
+      if (keyMasked.trim().length > 0) {
+        $('#apiKey').val(keyMasked)
+        $('#apiKey').prop("disabled", true)
+        $('#save-key').hide()
+        $('#clear-key').show()
+      }
+    })
   });
 
   $('#address-2').find("#submit").click(function (e) {
@@ -115,6 +125,50 @@
     $('#avsModal').modal('hide')
   }
 
+  // Store API key in session
+  $('#save-key').click(function (e) {
+    e.preventDefault();
+    saveKey()
+  })
+
+  function saveKey() {
+    if ($('#apiKey').val().trim().length > 0) {
+      $.post('/store_key', {
+        key: $('#apiKey').val()
+      }).done((data) => {
+        $('#save-key').hide()
+        $('#clear-key').show()
+        $('#apiKey').prop("disabled", true)
+      })
+    }
+  }
+
+  $('#clear-key').click(function (e) {
+    e.preventDefault();
+    clearKey()
+  })
+
+  function clearKey() {
+    $.post('/store_key', {
+      key: ""
+    }).done((data) => {
+      $('#apiKey').val("")
+      $('#apiKey').prop("disabled", false)
+      $('#save-key').show()
+      $('#clear-key').hide()
+    })
+  }
+
+  function recallKey(cb) {
+    $.get('/get_key')
+    .done((key) => {
+      keyMasked = key.length > 5 ? key.replace(/.(?=.{4,}$)/g, '*') : key
+      cb(keyMasked)
+    })
+  }
+
+  
+
 </script>
 {% endblock %}
 
@@ -129,7 +183,21 @@
         <li><a href="{{ url_for('index') }}">Index</a></li>
         <li><a href="{{ url_for('address_1') }}">AVS - Force Update</a></li>
         <li><a href="{{ url_for('address_2') }}">AVS - Modal</a></li>
+        <li><a role="button" data-toggle="collapse" href="#apiKeyCollapse" aria-expanded="false" aria-controls="apiKeyCollapse">API Key <span class="caret"></span></a></li>
       </ul>
+    </div>
+    <div class="col-md-6 col-md-offset-6 collapse" id="apiKeyCollapse">
+      <div class="well">
+        <form>
+          <div class="form-group">
+            <label for="apiKey">API Key</label>
+            <input type="password" class="form-control" id="apiKey" placeholder="Password">
+          </div>
+          <button id="save-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" data-toggle="collapse" href="#apiKeyCollapse" >Save</button>
+          <button id="clear-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" style="display: none;">Clear</button>
+          <div class="clearfix"></div>
+        </form>
+      </div>
     </div>
   </div>
 </nav>
