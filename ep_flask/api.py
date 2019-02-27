@@ -1,7 +1,7 @@
 import easypost, json
 from ep_flask import app, db
 from ep_flask.models import Address
-# easypost.api_key = app.config['EP_API_KEY']
+easypost.api_key = app.config['EP_API_KEY']
 
 class AddressData(object):
   name=""
@@ -34,7 +34,7 @@ def CreateAddress(form):
   return res
 
 def CreateAddressForceUpdate(form, key):
-  easypost.api_key = key
+  easypost.api_key = key or app.config['EP_API_KEY']
   input = {}
   output = {}
   # form input
@@ -95,7 +95,7 @@ def CreateAddressForceUpdate(form, key):
 
 
 def CreateAddressEditModal(form, key):
-  easypost.api_key = key
+  easypost.api_key = key or app.config['EP_API_KEY']
   input = {}
   output = {}
   # form input
