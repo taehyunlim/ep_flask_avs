@@ -17,6 +17,8 @@
         $('#apiKey').prop("disabled", true)
         $('#save-key').hide()
         $('#clear-key').show()
+      } else {
+        $('#apiKeyCollapse').collapse('toggle')
       }
     })
   });
@@ -208,8 +210,8 @@
       <div class="well">
         <form>
           <div class="form-group">
-            <label for="apiKey">API Key</label>
-            <input type="password" class="form-control" id="apiKey" placeholder="Password">
+            <label for="apiKey">Key</label>
+            <input type="password" class="form-control" id="apiKey" placeholder="EasyPost API Key">
           </div>
           <button id="save-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" data-toggle="collapse"
             href="#apiKeyCollapse">Save</button>
