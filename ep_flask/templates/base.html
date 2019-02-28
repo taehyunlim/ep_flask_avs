@@ -1,5 +1,5 @@
 {% extends 'bootstrap/base.html' %}
-{% block title %}ep_flask{% endblock %}
+{% block title %}ep_flask_avs{% endblock %}
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
@@ -28,6 +28,8 @@
     $('#avs-error-msg').remove()
     $('.radio').find("input:radio").prop('checked', false)
     $('#select-address').prop('disabled', true)
+    $('#avs-warning').hide()
+    $('#avs-warning-msg').remove()
     outputFinal = ''
     // Call ajax 
     avs('#avsModalInput', '#avsModalOutput')
@@ -58,7 +60,7 @@
         if (!v.success) {
           // If success == false then display mapped error messages onto the alert div
           const error_msg = v.errors.map(e => {
-            return `<li>${e.message}</li>`
+            return `<li>${e.field.toUpperCase()}: ${e.message}</li>`
           })
           $('#avs-error').append(`<ul id='avs-error-msg'>${error_msg.join('')}</ul>`)
           $('#avs-error').show()
@@ -69,6 +71,7 @@
           // Only suggest correction when there is a difference between in/output
           if (JSON.stringify(data.input).toLowerCase().trim() == JSON.stringify(data.output).toLowerCase().trim()) {
             outputFinal = formatAddress(data.output)
+            $('pre').show()
             return selectAddress(outputFinal)
           }
           $(dest1).html(formatAddress(data.input))
@@ -76,6 +79,19 @@
           if (JSON.stringify(data.res.residential).toLowerCase() === 'true') {
             $(residential).appendTo(dest2)
           }
+          // Verification is successful but had errors
+          if (v.success && v.errors.length > 0) {
+            // Suppress non-critical error messages
+            const error_msg = v.errors
+              .filter(e => e.message.toLowerCase().search("missing") !== -1)
+              .map(e => (`<li>${e.field.toUpperCase()}: ${e.message}</li>`))
+            // Only show warning if there is a critical message
+            if (error_msg.length > 0) {
+              $('#avs-warning p').after(`<ul id='avs-warning-msg' style="margin-top: 5px;">${error_msg.join('')}</ul>`)
+              $('#avs-warning').show()
+            }
+          }
+
         }
       }
       // Handle error messages
@@ -87,6 +103,7 @@
           .append(`<ul id='avs-error-msg'><li>${data.res.error.message}</li>${error_msg.join('')}</ul>`)
         $('#avs-error').show()
       }
+
 
     }).fail((e) => {
       $('#avsModal').modal('hide')
@@ -114,6 +131,7 @@
 
   $('#select-address').click(function (e) {
     e.preventDefault();
+    $('pre').show()
     selectAddress(outputFinal)
   })
 
@@ -161,13 +179,13 @@
 
   function recallKey(cb) {
     $.get('/get_key')
-    .done((key) => {
-      keyMasked = key.length > 5 ? key.replace(/.(?=.{4,}$)/g, '*') : key
-      cb(keyMasked)
-    })
+      .done((key) => {
+        keyMasked = key.length > 5 ? key.replace(/.(?=.{4,}$)/g, '*') : key
+        cb(keyMasked)
+      })
   }
 
-  
+
 
 </script>
 {% endblock %}
@@ -176,14 +194,14 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="{{ url_for('index') }}">ep_flask</a>
+      <a class="navbar-brand" href="{{ url_for('index') }}">ep_flask_avs</a>
     </div>
     <div class="navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('index') }}">Index</a></li>
-        <li><a href="{{ url_for('address_1') }}">AVS - Force Update</a></li>
-        <li><a href="{{ url_for('address_2') }}">AVS - Modal</a></li>
-        <li><a role="button" data-toggle="collapse" href="#apiKeyCollapse" aria-expanded="false" aria-controls="apiKeyCollapse">API Key <span class="caret"></span></a></li>
+        <li><a href="{{ url_for('address_1') }}">OMS/WMS</a></li>
+        <li><a href="{{ url_for('address_2') }}">Shopping Cart</a></li>
+        <li><a role="button" data-toggle="collapse" href="#apiKeyCollapse" aria-expanded="false"
+            aria-controls="apiKeyCollapse">API Key <span class="caret"></span></a></li>
       </ul>
     </div>
     <div class="col-md-6 col-md-offset-6 collapse" id="apiKeyCollapse">
@@ -193,8 +211,10 @@
             <label for="apiKey">API Key</label>
             <input type="password" class="form-control" id="apiKey" placeholder="Password">
           </div>
-          <button id="save-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" data-toggle="collapse" href="#apiKeyCollapse" >Save</button>
-          <button id="clear-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" style="display: none;">Clear</button>
+          <button id="save-key" type="submit" class="btn btn-default btn-xs pull-right clearfix" data-toggle="collapse"
+            href="#apiKeyCollapse">Save</button>
+          <button id="clear-key" type="submit" class="btn btn-default btn-xs pull-right clearfix"
+            style="display: none;">Clear</button>
           <div class="clearfix"></div>
         </form>
       </div>

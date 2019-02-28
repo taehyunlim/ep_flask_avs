@@ -2,7 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<h3><code style="color: #333; background-color: #f5f5f5;">easypost.Address.create</code> edit modal</h3><br>
+<h3>[AVS Demo] Shopping Cart</h3><br>
 <div class="row">
   <div class="col-md-4">
     <div class="panel panel-default">
@@ -10,13 +10,14 @@
         <h3 class="panel-title">Shipping Address</h3>
       </div>
       <div class="panel-body" id="address-2">
-        <div class="alert alert-danger" id="avs-error" role="alert" style="display: none;">The address you entered cannot be verified. Please try again.</div>
+        <div class="alert alert-danger" id="avs-error" role="alert" style="display: none;">The address you entered
+          cannot be verified. Please try again.</div>
         {{ wtf.quick_form(form) }}
       </div>
     </div>
   </div>
   <div class="col-md-8">
-    <pre>output:<br><span id="result-output"></span></pre>
+    <pre style="display: none;">output:<br><span id="result-output"></span></pre>
   </div>
 </div>
 <br><br><br>
@@ -26,22 +27,32 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="avsModal">Address Verification</h4>
       </div>
       <div class="modal-body row" id="avsModalBody">
         <div class="col-md-6">
           <p>You entered:</p>
-          <div class="well well-sm" style="display: flex; align-items: center; background-color: white; cursor: pointer;">
-          <span class="radio" style=" float: left; width: 20%; display: flex; justify-content: center; "> <label> <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="..."></label></span>
-          <div id="avsModalInput" style="padding-top: 10px;"></div>
+          <div class="well well-sm"
+            style="display: flex; align-items: center; background-color: white; cursor: pointer;">
+            <span class="radio" style="float: left; width: 20%; display: flex; justify-content: center; "> <label>
+                <input type="radio" name="blankRadio" id="avsRadio1" value="option1" aria-label="..."></label></span>
+            <div id="avsModalInput" style="padding-top: 10px;"></div>
           </div>
         </div>
         <div class="col-md-6">
-        <p>Suggested address:</p>
-          <div class="well well-sm" style="display: flex; align-items: center; background-color: white; cursor: pointer;">
-          <span class="radio" style=" float: left; width: 20%; display: flex; justify-content: center; "> <label> <input type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="..."></label></span>
-          <div id="avsModalOutput" style="padding-top: 10px;"></div>
+          <p>Suggested address:</p>
+          <div class="well well-sm"
+            style="display: flex; align-items: center; background-color: white; cursor: pointer;">
+            <span class="radio" style="float: left; width: 20%; display: flex; justify-content: center; "> <label>
+                <input type="radio" name="blankRadio" id="avsRadio2" value="option2" aria-label="..."></label></span>
+            <div id="avsModalOutput" style="padding-top: 10px;"></div>
+          </div>
+        </div>
+        <div class="col-md-12" id="avs-warning" style="display: none;">
+          <div class="alert alert-warning">
+            <p><strong>WARNING!</strong> The address you provided has potential issue(s):</p>
           </div>
         </div>
       </div>
