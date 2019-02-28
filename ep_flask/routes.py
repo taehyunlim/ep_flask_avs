@@ -51,7 +51,7 @@ def save_api_key():
 
 @app.route('/get_key', methods=['GET'])
 def get_api_key():
-    key = session.get('key')
+    key = session.get('key') or ''
     return key
 
 @app.route('/address/<id>/retrieve', methods=['GET'])
